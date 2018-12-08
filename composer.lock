@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57abd37b90cb3033311b9e1babfffe3d",
+    "content-hash": "80450ae9d7446d014b9edc8341679000",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -274,12 +274,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "d0cd7419b87fc1ddf7bf1de8d24e5e92c49c54eb"
+                "reference": "446c145b38b126ea2ff6bdd45983071e58f206d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/d0cd7419b87fc1ddf7bf1de8d24e5e92c49c54eb",
-                "reference": "d0cd7419b87fc1ddf7bf1de8d24e5e92c49c54eb",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/446c145b38b126ea2ff6bdd45983071e58f206d6",
+                "reference": "446c145b38b126ea2ff6bdd45983071e58f206d6",
                 "shasum": ""
             },
             "require": {
@@ -366,7 +366,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2018-12-04T22:37:12+00:00"
+            "time": "2018-12-07T22:08:43+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -481,6 +481,53 @@
                 "yii2"
             ],
             "time": "2018-08-25T10:44:34+00:00"
+        },
+        {
+            "name": "yiisoft/yii2-httpclient",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-httpclient.git",
+                "reference": "a77fbb7309badd6d815e72083355f668a3c8eda3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-httpclient/zipball/a77fbb7309badd6d815e72083355f668a3c8eda3",
+                "reference": "a77fbb7309badd6d815e72083355f668a3c8eda3",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.13"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\httpclient\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Klimov",
+                    "email": "klimov.paul@gmail.com"
+                }
+            ],
+            "description": "HTTP client extension for the Yii framework",
+            "keywords": [
+                "curl",
+                "http",
+                "httpclient",
+                "yii2"
+            ],
+            "time": "2018-10-24T12:14:04+00:00"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",
@@ -923,24 +970,27 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "9f83dded91781a01c63574e387eaa769be769115"
+                "reference": "5e61346ab1e1ca7d01d2f633bad9574d35717781"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/9f83dded91781a01c63574e387eaa769be769115",
-                "reference": "9f83dded91781a01c63574e387eaa769be769115",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/5e61346ab1e1ca7d01d2f633bad9574d35717781",
+                "reference": "5e61346ab1e1ca7d01d2f633bad9574d35717781",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0",
                 "psr/http-message": "~1.0",
-                "ralouphie/getallheaders": "^2.0.5"
+                "ralouphie/getallheaders": "^2.0.5 || ^3.0.0"
             },
             "provide": {
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.8"
+            },
+            "suggest": {
+                "zendframework/zend-httphandlerrunner": "Emit PSR-7 responses"
             },
             "type": "library",
             "extra": {
@@ -982,7 +1032,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2018-12-04T20:46:45+00:00"
+            "time": "2018-12-07T15:04:46+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1765,23 +1815,23 @@
         },
         {
             "name": "ralouphie/getallheaders",
-            "version": "2.0.5",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ralouphie/getallheaders.git",
-                "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa"
+                "reference": "e47eb688e84643a6c5e7c0333535e07c3fb75ab8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
-                "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
+                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/e47eb688e84643a6c5e7c0333535e07c3fb75ab8",
+                "reference": "e47eb688e84643a6c5e7c0333535e07c3fb75ab8",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3"
+                "php": ">=5.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "~3.7.0",
+                "phpunit/phpunit": "^5",
                 "satooshi/php-coveralls": ">=1.0"
             },
             "type": "library",
@@ -1801,7 +1851,7 @@
                 }
             ],
             "description": "A polyfill for getallheaders.",
-            "time": "2016-02-11T07:05:27+00:00"
+            "time": "2018-12-06T19:23:00+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -2952,12 +3002,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "9748a0c72fb3f694da33e832110c07ae6673ad46"
+                "reference": "9020db255600e185bca4c09b62ee22eed58f92db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/9748a0c72fb3f694da33e832110c07ae6673ad46",
-                "reference": "9748a0c72fb3f694da33e832110c07ae6673ad46",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/9020db255600e185bca4c09b62ee22eed58f92db",
+                "reference": "9020db255600e185bca4c09b62ee22eed58f92db",
                 "shasum": ""
             },
             "require": {
@@ -3001,7 +3051,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2018-12-04T19:21:30+00:00"
+            "time": "2018-12-07T15:41:54+00:00"
         },
         {
             "name": "yiisoft/yii2-faker",
@@ -3056,12 +3106,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "111da4dee053c4f8cfa00e4e3738094eba6490d7"
+                "reference": "c02adc552bcf3a0ef6f3694a9dcbf209f4885ab1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/111da4dee053c4f8cfa00e4e3738094eba6490d7",
-                "reference": "111da4dee053c4f8cfa00e4e3738094eba6490d7",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/c02adc552bcf3a0ef6f3694a9dcbf209f4885ab1",
+                "reference": "c02adc552bcf3a0ef6f3694a9dcbf209f4885ab1",
                 "shasum": ""
             },
             "require": {
@@ -3097,7 +3147,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2018-12-01T20:41:05+00:00"
+            "time": "2018-12-08T10:07:49+00:00"
         }
     ],
     "aliases": [],

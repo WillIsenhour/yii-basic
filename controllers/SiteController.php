@@ -10,6 +10,8 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
+use yii\httpclient\Client;
+
 class SiteController extends Controller
 {
     /**
@@ -61,7 +63,24 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-		$myAddress = Yii::$app->request->getUserIP();
+		
+		$myAddress = 'foo';
+//		$myAddress = Yii::$app->request->getUserIP();
+		
+//		$myAddress = Requests::get('https://api.ipify.org');
+		
+		$client = new Client();
+		$response = $client->createRequest()
+			->setMethod('GET')
+     	    ->setFormat(Client::FORMAT_JSON)
+			->setUrl('https://api.ipify.org')
+			->send();
+		if($response->isOk) {
+			$myAddress = $response;
+		} else {
+			$myAddress = "Something's... not right...";
+		}
+
         return $this->render('index', ['myAddress' => $myAddress]);
     }
 
@@ -127,3 +146,4 @@ class SiteController extends Controller
         return $this->render('about');
     }
 }
+
