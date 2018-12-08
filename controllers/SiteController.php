@@ -61,7 +61,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+		$myAddress = Yii::$app->request->getUserIP();
+        return $this->render('index', ['myAddress' => $myAddress]);
     }
 
     /**
@@ -69,34 +70,34 @@ class SiteController extends Controller
      *
      * @return Response|string
      */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+    // public function actionLogin()
+    // {
+        // if (!Yii::$app->user->isGuest) {
+            // return $this->goHome();
+        // }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
+        // $model = new LoginForm();
+        // if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            // return $this->goBack();
+        // }
 
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
+        // $model->password = '';
+        // return $this->render('login', [
+            // 'model' => $model,
+        // ]);
+    // }
 
     /**
      * Logout action.
      *
      * @return Response
      */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
+    // public function actionLogout()
+    // {
+        // Yii::$app->user->logout();
 
-        return $this->goHome();
-    }
+        // return $this->goHome();
+    // }
 
     /**
      * Displays contact page.
