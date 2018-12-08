@@ -56,6 +56,25 @@ class SiteController extends Controller
         ];
     }
 
+	private function getMyIpAddress()
+	{
+		$myAddress = false;
+		
+		$client = new Client();
+		$response = $client->createRequest()
+			->setMethod('GET')
+			->setUrl('https://api.ipify.org')
+			->setData(['format' => 'json'])
+			->send();		
+
+		if($response->isOk) {
+			$myAddress = $response->getData()['ip'];
+		} if (!$myAddress) {
+			$myAddress = Yii::$app->getRequest()->getUserIP();
+		}
+		return $myAddress;
+	}
+
     /**
      * Displays homepage.
      *
@@ -64,23 +83,22 @@ class SiteController extends Controller
     public function actionIndex()
     {
 		
-		$myAddress = 'foo';
-//		$myAddress = Yii::$app->request->getUserIP();
+		// $myAddress = false;
 		
-//		$myAddress = Requests::get('https://api.ipify.org');
-		
-		$client = new Client();
-		$response = $client->createRequest()
-			->setMethod('GET')
-     	    ->setFormat(Client::FORMAT_JSON)
-			->setUrl('https://api.ipify.org')
-			->send();
-		if($response->isOk) {
-			$myAddress = $response;
-		} else {
-			$myAddress = "Something's... not right...";
-		}
+		// $client = new Client();
+		// $response = $client->createRequest()
+			// ->setMethod('GET')
+			// ->setUrl('https://api.ipify.org')
+			// ->setData(['format' => 'json'])
+			// ->send();		
 
+		// if($response->isOk) {
+			// $myAddress = $response->getData()['ip'];
+		// } else {
+			// $myAddress = "Something's... not right...";
+		// }
+
+		$myAddress = $this->getMyIpAddress();
         return $this->render('index', ['myAddress' => $myAddress]);
     }
 

@@ -12,7 +12,7 @@ $this->title = 'Weather Gremlin';
 
     <div class="body-content">
 
-		<?=print_r($myAddress, true)?>
+		<?=$myAddress?>
 
     </div>
 </div>
