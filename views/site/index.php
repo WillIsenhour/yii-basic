@@ -16,9 +16,11 @@ $this->title = 'Weather Gremlin';
 		<br/>
 		<p>Ip-API</p>
 		<pre><?php print_r($ipApiData)?></pre>
+		<pre><?php print_r($ipApiWeather)?></pre>
 		<br/>
 		<p>Free Geo IP</p>
 		<pre><?php print_r($freeGeoIpData)?></pre>
+		<pre><?php print_r($freeGeoIpWeather)?></pre>
 		<br/>
 		
 

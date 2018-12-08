@@ -68,12 +68,16 @@ class SiteController extends Controller
 		if($myAddress) {
 			$ipApiData = $this->getIpApiData($myAddress);		
 			$freeGeoIpData = $this->getFreeGeoIpData($myAddress);
+			$ipApiWeather = $this->getWeatherData($ipApiData);
+			$freeGeoIpWeather = $this->getWeatherData($freeGeoIpData);
 		}
 
         return $this->render('index', [
 			'myAddress' => $myAddress,
 			'ipApiData' => $ipApiData,
 			'freeGeoIpData' => $freeGeoIpData,
+			'ipApiWeather' => $ipApiWeather,
+			'freeGeoIpWeather' => $freeGeoIpWeather
 		]);
     }
 
@@ -165,6 +169,11 @@ class SiteController extends Controller
 	}
 
 	
+	/**
+	 * Gets location data from the FreeGeoIp API.
+	 *
+	 * @return array
+	 */
 	private function getFreeGeoIpData($ip)
 	{
 		$data = false;
@@ -191,6 +200,32 @@ class SiteController extends Controller
 		}
 			
 		return $data;
+	}
+	
+	
+	private function getWeatherData($locationData)
+	{
+		$weather = false;
+			
+		$apiKey = '6103b0f582e78c7382bc6b0cdc06deb8';
+
+		$client = new Client();
+		$response = $client->createRequest()
+			->setMethod('GET')
+			->setUrl('https://api.openweathermap.org/data/2.5/weather')
+			->setData([
+				'lat' => $locationData['lat'], 
+				'lon' => $locationData['lon'],
+				'appid' => $apiKey,
+				'units' => 'metric'				
+			])
+			->send();	
+
+		if($response->isOk) {	
+			$weather = $response->getData();
+		}
+			
+		return $weather;
 	}
 }
 
