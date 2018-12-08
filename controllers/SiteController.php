@@ -4,13 +4,13 @@ namespace app\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
+use yii\httpclient\Client;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
-use yii\httpclient\Client;
 
 class SiteController extends Controller
 {
@@ -56,24 +56,6 @@ class SiteController extends Controller
         ];
     }
 
-	private function getMyIpAddress()
-	{
-		$myAddress = false;
-		
-		$client = new Client();
-		$response = $client->createRequest()
-			->setMethod('GET')
-			->setUrl('https://api.ipify.org')
-			->setData(['format' => 'json'])
-			->send();		
-
-		if($response->isOk) {
-			$myAddress = $response->getData()['ip'];
-		} if (!$myAddress) {
-			$myAddress = Yii::$app->getRequest()->getUserIP();
-		}
-		return $myAddress;
-	}
 
     /**
      * Displays homepage.
@@ -82,59 +64,19 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-		
-		// $myAddress = false;
-		
-		// $client = new Client();
-		// $response = $client->createRequest()
-			// ->setMethod('GET')
-			// ->setUrl('https://api.ipify.org')
-			// ->setData(['format' => 'json'])
-			// ->send();		
-
-		// if($response->isOk) {
-			// $myAddress = $response->getData()['ip'];
-		// } else {
-			// $myAddress = "Something's... not right...";
-		// }
-
 		$myAddress = $this->getMyIpAddress();
-        return $this->render('index', ['myAddress' => $myAddress]);
+		if($myAddress) {
+			$ipApiData = $this->getIpApiData($myAddress);		
+			$freeGeoIpData = $this->getFreeGeoIpData($myAddress);
+		}
+
+        return $this->render('index', [
+			'myAddress' => $myAddress,
+			'ipApiData' => $ipApiData,
+			'freeGeoIpData' => $freeGeoIpData,
+		]);
     }
 
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    // public function actionLogin()
-    // {
-        // if (!Yii::$app->user->isGuest) {
-            // return $this->goHome();
-        // }
-
-        // $model = new LoginForm();
-        // if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            // return $this->goBack();
-        // }
-
-        // $model->password = '';
-        // return $this->render('login', [
-            // 'model' => $model,
-        // ]);
-    // }
-
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
-    // public function actionLogout()
-    // {
-        // Yii::$app->user->logout();
-
-        // return $this->goHome();
-    // }
 
     /**
      * Displays contact page.
@@ -163,5 +105,92 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+	
+	/**
+	 * Gets the IP address that the device you're on currently is connecting to the internet from.
+	 *
+	 * @return string
+	 */
+	private function getMyIpAddress()
+	{
+		$myAddress = false;
+		
+		$client = new Client();
+		$response = $client->createRequest()
+			->setMethod('GET')
+			->setUrl('https://api.ipify.org')
+			->setData(['format' => 'json'])
+			->send();		
+
+		if($response->isOk) {
+			$myAddress = $response->getData()['ip'];
+		} 
+		
+		return $myAddress;
+	}
+
+	
+	/**
+	 * Gets location data from the ip-api API.
+	 *
+	 * @return array
+	 */
+	private function getIpApiData($ip)
+	{
+		$data = false;
+		
+		$client = new Client();
+		$response = $client->createRequest()
+			->setMethod('GET')
+			->setUrl('http://ip-api.com/json/'.$ip)
+			->send();		
+
+		if($response->isOk) {			
+			$rawData = $response->getData();
+			
+			$geo = array();
+			$geo['service'] = 'ip-api';
+			$geo['city'] = $rawData['city'];
+			$geo['region'] = $rawData['regionName'];
+			$geo['country'] = $rawData['country'];
+
+			$data['ip'] = $ip;
+			$data['lat'] = $rawData['lat'];
+			$data['lon'] = $rawData['lon'];
+			$data['geo'] = $geo;
+		}
+		
+		return $data;
+	}
+
+	
+	private function getFreeGeoIpData($ip)
+	{
+		$data = false;
+
+		$client = new Client();
+		$response = $client->createRequest()
+			->setMethod('GET')
+			->setUrl('https://freegeoip.app/json/'.$ip)
+			->send();
+
+		if($response->isOk) {			
+			$rawData = $response->getData();
+			
+			$geo = array();
+			$geo['service'] = 'freegeoip';
+			$geo['city'] = $rawData['city'];
+			$geo['region'] = $rawData['region_name'];
+			$geo['country'] = $rawData['country_name'];
+
+			$data['ip'] = $ip;
+			$data['lat'] = $rawData['latitude'];
+			$data['lon'] = $rawData['longitude'];
+			$data['geo'] = $geo;
+		}
+			
+		return $data;
+	}
 }
 

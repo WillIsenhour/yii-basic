@@ -12,7 +12,15 @@ $this->title = 'Weather Gremlin';
 
     <div class="body-content">
 
-		<?=$myAddress?>
+		<p><?=$myAddress?></p>
+		<br/>
+		<p>Ip-API</p>
+		<pre><?php print_r($ipApiData)?></pre>
+		<br/>
+		<p>Free Geo IP</p>
+		<pre><?php print_r($freeGeoIpData)?></pre>
+		<br/>
+		
 
     </div>
 </div>
