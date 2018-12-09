@@ -43,15 +43,24 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
-        /*
+        'db' => $db,        
         'urlManager' => [
+		    'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+		    'enableStrictParsing' => true,
             'rules' => [
+			    // [
+//					'pattern' => 'geolocation/<ip:\w+>',
+					// 'pattern' => 'geolocation/<ip:\(.*?)>',
+					// 'route' => 'site/geolocation',
+					// 'defaults' => ['ip' => 'default'],
+				// ],
+		        '/' => 'site/index',
+				'geolocation/<ip:\S+>' => 'site/geolocation',
+				'geolocation' => 'site/geolocation'
             ],
-        ],
-        */
+        ],        
     ],
     'params' => $params,
 ];

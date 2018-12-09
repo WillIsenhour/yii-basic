@@ -11,7 +11,6 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
-
 class SiteController extends Controller
 {
     /**
@@ -34,7 +33,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['post']
                 ],
             ],
         ];
@@ -80,7 +79,7 @@ class SiteController extends Controller
 			'freeGeoIpWeather' => $freeGeoIpWeather
 		]);
     }
-
+	
 
     /**
      * Displays contact page.
@@ -100,6 +99,7 @@ class SiteController extends Controller
         ]);
     }
 
+
     /**
      * Displays about page.
      *
@@ -109,6 +109,29 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+	
+
+
+	public function actionTest($echo = false)
+	{
+		return 'Test';
+//		return $echo ? $echo : 'No argument!';
+	}
+
+	
+	public function actionGeolocation($ip = 'default')
+	{
+return $ip;		
+//		$ipAddr = Yii::$app->request->get('ip');
+		
+		if ($ip == 'default') {
+			$ipAddr = $this->getMyIpAddress();
+		} else {
+			$ipAddr = $ip;
+		}
+		$ipApiData = $this->getIpApiData($ipAddr);
+		return $this->asJson($ipApiData);
+	}
 
 	
 	/**
@@ -205,7 +228,7 @@ class SiteController extends Controller
 	
 	private function getWeatherData($locationData)
 	{
-		$weather = false;
+		$data = false;
 			
 		$apiKey = '6103b0f582e78c7382bc6b0cdc06deb8';
 
@@ -222,10 +245,24 @@ class SiteController extends Controller
 			->send();	
 
 		if($response->isOk) {	
-			$weather = $response->getData();
+			$rawData = $response->getData();
+			
+			$temperature = array();
+			$temperature['current'] = $rawData['main']['temp'];
+			$temperature['low'] = $rawData['main']['temp_min'];
+			$temperature['high'] = $rawData['main']['temp_max'];
+			
+			$wind = array();
+			$wind['speed'] = $rawData['wind']['speed'];			
+			$wind['direction'] = $rawData['wind']['deg'];
+			
+			$data['ip'] = $locationData['ip'];
+			$data['city'] = $locationData['geo']['city'];
+			$data['temperature'] = $temperature;
+			$data['wind'] = $wind;
 		}
 			
-		return $weather;
+		return $data;
 	}
 }
 
