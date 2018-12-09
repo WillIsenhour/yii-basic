@@ -109,26 +109,20 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
-	
 
-
-	public function actionTest($echo = false)
-	{
-		return 'Test';
-//		return $echo ? $echo : 'No argument!';
-	}
 
 	
 	public function actionGeolocation($ip = 'default')
-	{
-return $ip;		
-//		$ipAddr = Yii::$app->request->get('ip');
-		
-		if ($ip == 'default') {
+	{		
+		if ($ip === 'default') {
 			$ipAddr = $this->getMyIpAddress();
 		} else {
+			$ip = strtr($ip, '-', '.');
+			if(!filter_var($ip, FILTER_VALIDATE_IP)) {
+				return $this->asJson(['Cannot parse IP address.']);
+			}
 			$ipAddr = $ip;
-		}
+		}		
 		$ipApiData = $this->getIpApiData($ipAddr);
 		return $this->asJson($ipApiData);
 	}
@@ -263,6 +257,15 @@ return $ip;
 		}
 			
 		return $data;
+	}
+	
+	private function returnError($type)
+	{
+		$error = [
+			1 => 'Cannot parse IP Address.'
+		];
+		
+		return $this->asJson($error[$type]);
 	}
 }
 
