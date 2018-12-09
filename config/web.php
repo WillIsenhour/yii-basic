@@ -52,7 +52,9 @@ $config = [
             'rules' => [
 		        '/' => 'site/index',
 				'geolocation/<ip:\S+>' => 'site/geolocation',
-				'geolocation' => 'site/geolocation'
+				'weather/<ip:\S+>' => 'site/weather',
+				'geolocation' => 'site/geolocation',
+				'weather' => 'site/weather'
             ],
         ],        
     ],
