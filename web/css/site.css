@@ -117,7 +117,12 @@ a.desc:after {
 
 #gremlin {
   height: 400px;
-  background-color: red;
+}
+
+#gremlin img {
+  right: 0;
+  bottom: 0;
+  position: absolute;
 }
 
 #dataOutput {

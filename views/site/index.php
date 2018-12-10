@@ -61,6 +61,7 @@ $this->title = 'Weather Gremlin';
 			</div>
 
 			<div id="gremlin" class="col-xs-3">
+				<?= Html::img('@web/gremlin.png');?>
 			</div>				
 			
 			<div id="dataOutput" class="col-xs-5">				

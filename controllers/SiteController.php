@@ -8,8 +8,6 @@ use yii\httpclient\Client;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-// use app\models\LoginForm;
-use app\models\ContactForm;
 use app\models\GremlinForm;
 
 class SiteController extends Controller
@@ -66,7 +64,7 @@ class SiteController extends Controller
     {
 		$model = new GremlinForm();		
 		$myAddress = $this->getMyIpAddress();
-		$dataOutput = "It's toasted...";
+		$dataOutput = $this->getSmartRemark();
 		
         if ($model->load(Yii::$app->request->post())) {
 			$ip = $model['ip'] != '' ? $model['ip'] : $myAddress;
@@ -328,13 +326,18 @@ class SiteController extends Controller
 		return array('Uh oh... '.$url.' responded with '.$response->getStatusCode());
 	}
 	
-	// private function returnError($type)
-	// {
-		// $error = [
-			// 1 => 'Cannot parse IP Address.'
-		// ];
-		
-		// return $this->asJson($error[$type]);
-	// }
+	private function getSmartRemark()
+	{
+		$smartRemarks = array(
+			'I know where you live.',
+			'The Internet... it watches...',
+			'There\'s no 7-11 in Skyrim.',
+			'Now I have a machinegun. Ho ho ho.',
+			'Up, up, down, down, left, right, left, right, B, A, start.',
+			'It\'s all fun and games until someone loses an eye.',
+			'Yes of course these horns are real.'
+		);
+		return $smartRemarks[mt_rand(0, count($smartRemarks)-1)];
+	}
 }
 
