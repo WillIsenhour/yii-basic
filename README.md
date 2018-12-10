@@ -50,8 +50,8 @@ use via the API, add an additional GET parameter to the end of
 your request.
 
 ## Built With
-Yii2
-Yii2 Http Client
-www.ipify.org
-dillinger.io
-Adobe Illustrator
++ Yii2
++ Yii2 Http Client
++ www.ipify.org
++ dillinger.io
++ Adobe Illustrator
