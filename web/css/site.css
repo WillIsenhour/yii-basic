@@ -21,9 +21,10 @@ body {
     padding-top: 20px;
 }
 
-.jumbotron {
+.jumbotron {	
     text-align: center;
     background-color: transparent;
+    font-family: "Hartwig-Schrift", Serif;
 }
 
 .jumbotron .btn {
@@ -113,3 +114,25 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+#gremlin {
+  height: 400px;
+  background-color: red;
+}
+
+#dataOutput {
+  height: 400px;
+  background-color: black;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+#dataOutput pre {
+  border: none;
+  background-color: black;
+  color: white;
+}
+
+

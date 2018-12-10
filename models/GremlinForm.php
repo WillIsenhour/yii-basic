@@ -17,6 +17,7 @@ class GremlinForm extends Model
 	public function rules() 
 	{
 		return [
+			[['operation', 'service'], 'string'],
 			['ip', 'ip', 'ipv6' => false]
 		];
 	}

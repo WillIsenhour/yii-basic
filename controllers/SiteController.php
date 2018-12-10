@@ -69,11 +69,8 @@ class SiteController extends Controller
 		$dataOutput = "It's toasted...";
 		
         if ($model->load(Yii::$app->request->post())) {
-
 			$ip = $model['ip'] != '' ? $model['ip'] : $myAddress;
 			$service = $model['service'] != '' ? $model['service'] : 'default';
-error_log('service: ' . $model['service']);			
-error_log('operation: ' . $model['operation']);
 			if($model['operation'] == 'geolocation') {
 				$rawData = $this->getLocationData($ip, $service);
 			} else if ($model['operation'] == 'weather') {
@@ -81,7 +78,7 @@ error_log('operation: ' . $model['operation']);
 			} else {
 				$rawData = $this->getLocationData($ip, $service);
 			}	
-			$dataOutput = print_r($rawData, true);
+			$dataOutput = $rawData;
 			$model = new GremlinForm();			
 		}
 
@@ -154,7 +151,6 @@ error_log('operation: ' . $model['operation']);
 	 */
 	private function getLocationData($ip, $service)
 	{
-error_log('ip in ' . __FUNCTION__ . ': ' . $ip);
 		if ($ip === 'default') {
 			$ipAddr = $this->getMyIpAddress();
 		} else if (filter_var($ip, FILTER_VALIDATE_IP)) {

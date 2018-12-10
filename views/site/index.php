@@ -17,14 +17,11 @@ $this->title = 'Weather Gremlin';
 
     <div class="body-content">
         <div class="row">
-            <div class="col-xs-12">
-				<div id="dataOutput">
-					<pre>
-						<?=$dataOutput?>
-					</pre>
-				</div>
-                <?php $form = ActiveForm::begin(['id' => 'gremlin-form']); ?>
-					<div  class="form-group">
+		
+			<div id="inputForm" class="col-xs-4">
+				<?php $form = ActiveForm::begin(['id' => 'gremlin-form']); ?>
+				<div class="row">
+					<div  class="form-group col-xs-12">
 						<?= $form->field($model, 'ip')
 							->textInput([
 								'autofocus' => true, 
@@ -32,7 +29,9 @@ $this->title = 'Weather Gremlin';
 							])->label("IP Address")
 						?>
 					</div>
-					<div  class="form-group">
+				</div>
+				<div class="row">
+					<div  class="form-group col-xs-12">
 						<?= $form->field($model, 'operation')
 							->inline()
 							->radioList([
@@ -41,7 +40,9 @@ $this->title = 'Weather Gremlin';
 							])->label("Which Operation?") 
 						?>
 					</div>
-					<div  class="form-group">
+				</div>
+				<div class="row">					
+					<div  class="form-group col-xs-12">
 						<?= $form->field($model, 'service')
 							->inline()
 							->radioList([
@@ -50,11 +51,29 @@ $this->title = 'Weather Gremlin';
 							])->label("Which Service?") 
 						?>
 					</div>
-                    <div class="form-group">
-                        <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
-                    </div>
-                <?php ActiveForm::end(); ?>
-		    </div>
-        </div>
-    </div>
+				</div>			
+				<div class="row">				
+					<div class="form-group col-xs-12">
+						<?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+					</div>
+				</div>				
+				<?php ActiveForm::end(); ?>
+			</div>
+
+			<div id="gremlin" class="col-xs-3">
+			</div>				
+			
+			<div id="dataOutput" class="col-xs-5">				
+				<?php if (is_array($dataOutput)) {
+					echo '<pre>'.print_r($dataOutput, true).'</pre>';
+				} else {
+					echo $dataOutput;
+				}
+				?>
+			</div>
+
+		</div>
+
+	</div>
 </div>
+
