@@ -137,9 +137,13 @@ class SiteController extends Controller
 	public function actionWeather($ip = 'default', $service = 'default')
 	{
 		$locationData = $this->getLocationData($ip, $service);
-		return $this->asJson($this->getWeatherData($locationData));
+		if ($locationData[0] == 'ERROR') {
+			return $this->asJson($locationData);
+		} else {
+			return $this->asJson($this->getWeatherData($locationData));
+		}
 	}
-		
+
 
 	/** 
 	 * Does the location work. Accepts ip addresses after a slash in the format '8-8-8-8' 
@@ -156,7 +160,7 @@ class SiteController extends Controller
 		} else {
 			$ip = strtr($ip, '-', '.');
 			if(!filter_var($ip, FILTER_VALIDATE_IP)) {
-				return array('Cannot parse IP address. Format as: NNN-NNN-NNN-NNN');
+				return array('ERROR', 'Cannot parse IP address. Format as: NNN-NNN-NNN-NNN');
 			}
 			$ipAddr = $ip;
 		}
@@ -166,7 +170,7 @@ class SiteController extends Controller
 		} else if ($service === 'freegeoip') {
 			$data = $this->getFreeGeoIpData($ipAddr);
 		} else {
-			return array('Invalid service option, will accept: default|ip-api|freegeoip');
+			return array('ERROR', 'Invalid service option, will accept: default|ip-api|freegeoip');
 		}
 		
 		return $data;	
@@ -321,11 +325,23 @@ class SiteController extends Controller
 		return $data;
 	}
 	
+
+	/**
+	 * Spares me from duplicating / updating this code in four places.
+	 *
+	 * @return array
+	 */
 	private function responseError($url, $response) 
 	{
-		return array('Uh oh... '.$url.' responded with '.$response->getStatusCode());
+		return array('ERROR','Uh oh... '.$url.' responded with '.$response->getStatusCode());
 	}
 	
+
+	/**
+	 * What are YOU lookin' at?
+	 *
+	 * @return string
+	 */
 	private function getSmartRemark()
 	{
 		$smartRemarks = array(
