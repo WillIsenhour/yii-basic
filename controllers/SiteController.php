@@ -8,8 +8,9 @@ use yii\httpclient\Client;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
+// use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\GremlinForm;
 
 class SiteController extends Controller
 {
@@ -57,26 +58,37 @@ class SiteController extends Controller
 
 
     /**
-     * Displays homepage.
+     * Displays homepage, handles web interface demo.
      *
      * @return string
      */
     public function actionIndex()
     {
+		$model = new GremlinForm();		
 		$myAddress = $this->getMyIpAddress();
-		if($myAddress) {
-			$ipApiData = $this->getIpApiData($myAddress);		
-			$freeGeoIpData = $this->getFreeGeoIpData($myAddress);
-			$ipApiWeather = $this->getWeatherData($ipApiData);
-			$freeGeoIpWeather = $this->getWeatherData($freeGeoIpData);
+		$dataOutput = "It's toasted...";
+		
+        if ($model->load(Yii::$app->request->post())) {
+
+			$ip = $model['ip'] != '' ? $model['ip'] : $myAddress;
+			$service = $model['service'] != '' ? $model['service'] : 'default';
+error_log('service: ' . $model['service']);			
+error_log('operation: ' . $model['operation']);
+			if($model['operation'] == 'geolocation') {
+				$rawData = $this->getLocationData($ip, $service);
+			} else if ($model['operation'] == 'weather') {
+				$rawData = $this->getWeatherData($this->getLocationData($ip, $service));
+			} else {
+				$rawData = $this->getLocationData($ip, $service);
+			}	
+			$dataOutput = print_r($rawData, true);
+			$model = new GremlinForm();			
 		}
 
         return $this->render('index', [
+			'model' => $model, 
 			'myAddress' => $myAddress,
-			'ipApiData' => $ipApiData,
-			'freeGeoIpData' => $freeGeoIpData,
-			'ipApiWeather' => $ipApiWeather,
-			'freeGeoIpWeather' => $freeGeoIpWeather
+			'dataOutput' => $dataOutput
 		]);
     }
 	
@@ -132,8 +144,7 @@ class SiteController extends Controller
 		$locationData = $this->getLocationData($ip, $service);
 		return $this->asJson($this->getWeatherData($locationData));
 	}
-	
-	
+		
 
 	/** 
 	 * Does the location work. Accepts ip addresses after a slash in the format '8-8-8-8' 
@@ -143,8 +154,11 @@ class SiteController extends Controller
 	 */
 	private function getLocationData($ip, $service)
 	{
+error_log('ip in ' . __FUNCTION__ . ': ' . $ip);
 		if ($ip === 'default') {
 			$ipAddr = $this->getMyIpAddress();
+		} else if (filter_var($ip, FILTER_VALIDATE_IP)) {
+			$ipAddr = $ip;
 		} else {
 			$ip = strtr($ip, '-', '.');
 			if(!filter_var($ip, FILTER_VALIDATE_IP)) {
